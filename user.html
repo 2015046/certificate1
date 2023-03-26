@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="user.css" />
+    <title>User page</title>
+  </head>
+  <body>
+    <header>
+      <div class="logoDiv">
+        <img
+          src="https://nec.edu.in/wp-content/themes/vajra/assets/images/logo_2.svg"
+          alt="nec logo"
+        />
+      </div>
+      <div class="navText">
+        <div class="list">
+          <div class="navProfile">
+            <div class="profileName">
+              <h2>student user</h2>
+              <div>
+                <ul>
+                  <li>Setting</li>
+                  <li>Profile</li>
+                  <li>Logout</li>
+                </ul>
+              </div>
+            </div>
+            <div class="profileImage">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="eventColor">
+      <div class="eventIndex">
+        <h2>Academic certificate</h2>
+        <button onclick="toggleAlert()">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/4315/4315609.png"
+            alt=""
+          />Create
+        </button>
+      </div>
+      <div class="superClubList events">
+        <div class="superClubDiv enentsDiv">
+          <img src="" alt="" />
+          <div class="eventTime">
+            <!-- upload</div> -->
+            
+          <div class="superClubText">
+            <h2>course Name</h2>
+            <p>title</p>
+            <div class="eventMeta">
+              <!-- <span class="spanCount"
+                >Registered : <span> length.getString("len")</span>
+              </span> -->
+              <span class="viewButn">
+                <a href="" target="_blank"><button>View</button></a>
+              </span>
+              <span class="spanButn"> <button onclick="">Trash</button> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alertMaster" style="display: none">
+      <form
+        action="http://localhost:8000/superclub/newevent"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div class="master">
+          <h2 class="title">upload here</h2>
+          <div class="studentForm">
+            <div class="dataInput">
+              <label for="eventname">Title</label>
+              <input type="text" name="eventname" id="eventname" required />
+            </div>
+            <div class="dataInput">
+              <label for="eventname">Type</label>
+              <select name="clubname" id="clubname" required>
+                <option value="null" disabled selected>select</option>
+                <option value="Technical">Technical</option>
+                <option value="Non Technical"> Non Technical</option>
+              </select>
+            </div>
+            <div class="dataInput">
+              <label for="clubname">Date time</label>
+              <input type="datetime-local" name="datetime" id="datetime" />
+            </div>
+            <div class="dataInput">
+              <label for="eventimage">event image</label>
+              <input type="file" name="file" id="eventimage" />
+            </div>
+            <div class="butnDiv">
+              <input
+                id="doneButn"
+                onclick="toggleAlert()"
+                type="submit"
+                value="Submit"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- <div class="eventData">
+    <h2>NCC Club</h2>
+    <p>The Army profession is a unique vocation</p>
+    <div class="eventContent">
+    </div>
+</div> -->
+    <script src="app.js"></script>
+  </body>
+</html>

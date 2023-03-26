@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="studentcss.css" />
+    <title>student Dashboard</title>
+  </head>
+  <body onkeydown="alertEsc(event)">
+    <div class="navbar">
+      <div class="navbarOptions">
+        <img
+          src="https://nec.edu.in/wp-content/themes/vajra/assets/images/logo_2.svg"
+          alt=""
+        />
+        <h3 id="authuser">Login as Student</h3>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="sideTop">
+        <h2>Dashboard</h2>
+      </div>
+    </div>
+    <div class="root">
+      <div class="index">
+        <div class="classUser">
+          <div class="userIndex">
+            <h2>Student certificate</h2>
+            <!-- <button id="createNew">Add Profile</button> -->
+          </div>
+          <div class="userContent">
+            <table class="userTable">
+              <tr>
+                <th>ID</th>
+                <th>Course</th>
+                <th>upload</th>
+                <!-- <th>Email</th> -->
+                <th>Edit</th>
+                <th>Trash</th>
+              </tr>
+
+              <tr>
+                <td>2</td>
+                <td>python</td>
+                <td>
+                    <input type="file" id="photo" name="photo" placeholder="file size 413 × 531 px">
+                </td>
+                <!-- <td>abu@gmail.com</td> -->
+                <td><button class="userButn editButn">Edit</button></td>
+                <td><button class="userButn trashButn">Trash</button></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

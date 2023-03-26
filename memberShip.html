@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./memberShip.css" />
+    <title>Register</title>
+  </head>
+  <body>
+    <div class="master">
+      <h2 class="title">Faculty registration form</h2>
+      <form id="dataForm">
+        <div class="studentForm">
+          <div class="dataInput">
+            <label for="Facultyname">Faculty Name</label>
+            <input type="text" id="Facultyname" name="Facultyname" />
+          </div>
+          <div class="dataInput">
+            <label for="regno">register number </label>
+            <input type="number" id="regno" name="regno" />
+          </div>
+          <div class="dataInput selectInput">
+            <label for="student">gender </label>
+            <div>
+              <span>
+                <label for="male">male</label>
+                <input
+                  type="radio"
+                  id="male"
+                  checked
+                  name="gender"
+                  value="male"
+                />
+              </span>
+              <span>
+                <label for="female">female</label>
+                <input type="radio" id="female" name="gender" value="female" />
+              </span>
+            </div>
+          </div>
+
+          <div class="dataInput">
+            <label for="student">Department</label>
+            <select name="department" id="studentdepartment">
+              <option value="null" selected>Department</option>
+              <option value="CSE">CSE</option>
+              <option value="IT">IT</option>
+              <option value="ECE">ECE</option>
+              <option value="MECH">MECH</option>
+              <option value="EEE">EEE</option>
+            </select>
+          </div>
+
+          <div class="dataInput">
+            <label for="brithDay">data of brith</label>
+            <input type="date" id="brithDay" name="brithDay" />
+          </div>
+          <div class="dataInput">
+            <label for="email">email</label>
+            <input type="email" id="email" name="email" />
+          </div>
+          <div class="dataInput">
+            <label for="password">password</label>
+            <input type="password" id="password" name="password" />
+          </div>
+        </div>
+        <h4 id="displayMsg"></h4>
+        <div class="butnDiv">
+          <input id="doneButn" type="submit" value="Sign up" />
+        </div>
+      </form>
+    </div>
+    <script type="module">
+      import {
+        db,
+        collection,
+        getDoc,
+        doc,
+        updateProfile,
+        setDoc,
+        createUserWithEmailAndPassword,
+        updateDoc,
+        getDocs,
+        auth,
+      } from "./firebase.config.js";
+      const log = (message) => {
+        document.getElementById("displayMsg").innerText = message;
+      };
+      document.getElementById("doneButn").addEventListener("click", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("Facultyname");
+        const email = document.getElementById("email");
+        const regno = document.getElementById("regno");
+        const department = document.getElementsByName("department")[0];
+        const brithDay = document.getElementById("brithDay");
+        const male = document.getElementsByName("gender")[0];
+        const female = document.getElementsByName("gender")[1];
+        const password = document.getElementById("password");
+        if (name.value.trim === "") {
+          log("Please enter your name");
+          return false;
+        } else if (/^[a-zA-Z\s]+$/.test(name.value) === false) {
+          log("Please enter a valid name");
+          return false;
+        } else if (name.value.trim().length <= 2) {
+          log("name must contains more the 2 characters");
+          return false;
+        }
+
+        if (regno.value === "") {
+          log("Please enter your register number");
+          return false;
+        } else if (/^\d{7}$/.test(regno.value) === false) {
+          log("Please enter a valid 7 digit register number");
+          return false;
+        }
+
+        if (department.options[department.selectedIndex].value === "null") {
+          log("Select your department name");
+          return false;
+        }
+
+        if (brithDay.value === "") {
+          log("Select Your Date of Brith");
+          return false;
+        }
+        if (password.value.trim() === "" || password.value.length < 6) {
+          log("password invalid");
+          return false;
+        }
+        if (email.value.trim === "") {
+          log("Please enter your email address");
+          return false;
+        } else if (/^\S+@\S+\.\S+$/.test(email.value) === false) {
+          log("Please enter a valid email address");
+          return false;
+        }
+        log("");
+        console.log(
+          name.value,
+          email.value,
+          brithDay.value,
+          department.value,
+          male.checked ? "male" : "female",
+          password.value
+        );
+        function createUser(uid) {
+          const ref = doc(db, "users", uid);
+          setDoc(ref, {
+            name: name.value,
+            email: email.value,
+            brithDay: brithDay.value,
+            department: department.value,
+            gender: male.checked ? "male" : "female",
+          })
+            .then(() => alert("User details added auccessfully"))
+            .catch((error) => console.log(error));
+        }
+        createUserWithEmailAndPassword(auth, email.value, password.value)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            alert("auth success");
+            createUser(user.uid);
+            updateProfile(auth.currentUser, {
+              displayName: name.value,
+            })
+              .then(() => {
+                console.log("user auth profile success");
+                location.href = "/loginPage.html";
+              })
+              .catch((error) => {
+                console.log("auth profile ", error);
+              });
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+            alert(errorMessage);
+          });
+      });
+    </script>
+  </body>
+</html>
