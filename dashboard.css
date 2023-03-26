@@ -36,7 +36,6 @@ body{
     align-items:center;
     /* background-color: lime; */
     justify-content: flex-end;
-    margin-right: 2rem;
 }
 .sideTop {
     margin-top: 1rem;
@@ -57,6 +56,28 @@ body{
     position: relative;
     align-items: center;
     margin-left: 19rem;
+}
+
+.userprofile{
+    display: flex;
+    align-items: center;
+    gap:.5rem;
+    margin-right: 1rem;
+}
+
+
+.userprofile button{
+    font-size: 1rem;
+    background-color: orangered;
+    border: none;
+    padding: .3rem .5rem;
+    color: white;
+    border-radius: .3rem;
+}
+
+.userprofile button:hover{
+    background-color: rgb(240, 74, 13);
+
 }
 
 .classUser{
