@@ -1,75 +1,87 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login page</title>
-    <link rel="stylesheet" href="loginStyles.css" />
-  </head>
-  <body>
-    <header>
-      <div class="logoDiv">
-        <!-- <a href="/superclub" style="text-decoration: none; color: white"> -->
-        <img
-          src="https://nec.edu.in/wp-content/themes/vajra/assets/images/logo_2.svg"
-          alt="nec logo"
-        />
-        <h2 class="webTitle"></h2>
-      </div>
-      <ul>
-        <li>
-          home
-          <hr />
-        </li>
-        <li>
-          <!-- <span class="joinButn"><a href="./memberShip.html">Register</a></span> -->
-          <span
-            ><a
-              href="./loginPage.html"
-              style="text-decoration: none; color: white"
-              >Login</a
-            >
-          </span>
-        </li>
-      </ul>
-    </header>
-    <div class="master">
-      <h2 class="masterTitle">Login page</h2>
-      <form id="loginForm">
-        <div class="loginDiv">
-          <div class="inputDiv">
-            <input type="text" id="username" name="username" required />
-            <label for="username">username</label>
-          </div>
-          <div class="inputDiv">
-            <input type="text" id="password" name="password" required />
-            <label for="password">password</label>
-          </div>
-          <input class="loginButn" type="submit" value="login" />
-        </div>
-      </form>
-    </div>
-    <script type="module">
-      import { auth, signInWithEmailAndPassword } from "./firebase.config.js";
 
-      document.getElementById("loginForm").addEventListener("submit", (e) => {
-        const email = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        console.log(email, password);
-        e.preventDefault();
-        signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            alert("user successfully login");
-            location.href = "/dashboard.html";
-            console.log("Login success");
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-          });
-      });
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login page</title>
+  <link rel="stylesheet" href="loginStyles.css" />
+</head>
+
+<body>
+  <header>
+    <div class="logoDiv">
+      <!-- <a href="/superclub" style="text-decoration: none; color: white"> -->
+      <img src="https://nec.edu.in/wp-content/themes/vajra/assets/images/logo_2.svg" alt="nec logo" />
+      <h2 class="webTitle"></h2>
+    </div>
+    <ul>
+      <li>
+        home
+        <hr />
+      </li>
+      <li>
+        <!-- <span class="joinButn"><a href="./memberShip.html">Register</a></span> -->
+        <span><a href="./loginPage.html" style="text-decoration: none; color: white">Login</a>
+        </span>
+      </li>
+    </ul>
+  </header>
+  <div class="master">
+    <h2 class="masterTitle">Login page</h2>
+    <form id="loginForm">
+      <div class="loginDiv">
+        <div class="inputDiv">
+          <input type="text" id="username" name="username" required />
+          <label for="username">username</label>
+        </div>
+        <div class="inputDiv">
+          <input type="text" id="password" name="password" required />
+          <label for="password">password</label>
+        </div>
+        <input class="loginButn" type="submit" value="login" />
+      </div>
+    </form>
+  </div>
+  <script type="module">
+    import { auth, signInWithEmailAndPassword, where, getDocs, query, collection, db } from "./firebase.config.js";
+
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      const email = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      console.log(email, password);
+      e.preventDefault();
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          alert("user successfully login");
+          location.href = "/dashboard.html";
+          console.log("Login success");
+        })
+        .catch(async (error) => {
+          try {
+            const q = query(collection(db, "students"), where("email", "==", email));
+            const querySnapshot = await getDocs(q);
+            const doc = querySnapshot.docs[0];
+
+            if (!querySnapshot.docs.length) {
+              console.log("No user found with this email.");
+              return null;
+            }
+
+            const userData = { id: doc.id, ...doc.data() };
+            sessionStorage.setItem("data", JSON.stringify(userData))
+            location.href = "/user.html"
+          } catch (error) {
+            console.error("Error fetching user:", error);
+            return null;
+          }
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+        });
+    });
+  </script>
+</body>
+
 </html>
