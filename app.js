@@ -1,27 +1,27 @@
 "use strict";
 const alertBox = document.getElementsByClassName("alertMaster")[0];
 const master = document.getElementsByClassName("master")[0];
-function toggleAlert(){
-    if(alertBox.style.display === "none"){
+function toggleAlert() {
+    if (alertBox.style.display === "none") {
         alertBox.style.display = "flex";
-    }
-    else alertBox.style.display = "none";
+    } else alertBox.style.display = "none";
 }
 
+const { id, username } = JSON.parse(sessionStorage.getItem("data"));
 
-function trashEvent(eventid){
+document.querySelector(".profileName > h2").textContent = username;
+
+function trashEvent(eventid) {
     const urlencode = `status=yes&eventid=${eventid}`;
 
-    fetch("http://localhost:8000/superclub/newevent",{
-        method:"POST",
-        headers:{
-            'content-type': 'application/x-www-form-urlencoded'
+    fetch("http://localhost:8000/superclub/newevent", {
+        method: "POST",
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
         },
-        body: encodeURI(urlencode)
-    })
-    .then((res)=>{
-        console.log("Event "+ eventid +" deleted successfully");
+        body: encodeURI(urlencode),
+    }).then((res) => {
+        console.log("Event " + eventid + " deleted successfully");
         window.location.reload();
     });
-    
 }
